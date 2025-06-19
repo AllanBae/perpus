@@ -61,13 +61,13 @@ function perpus_modulku() {
 
 function perpus_tambah_menu() {
     add_menu_page(
-    'SI Perpustakaan',
-    'Perpustakaan',
-    'read',
-    'perpus_utama', // pastikan ini UNIK
-    'perpus_modulku',
-    'dashicons-book-alt',
-    25
+        'SI Perpustakaan 6 Ksatria', // Page title
+        'SI Perpustakaan',           // Menu title
+        'read',                     // Capability
+        'perpus_utama',                    // Menu slug
+        'perpus_modulku',                  // Callback function
+        'dashicons-book-alt',      // Icon
+        25,                         // Position
     );
 
 }

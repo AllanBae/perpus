@@ -13,6 +13,25 @@
 	function modulku() {
 		$jun = plugin_dir_url(__FILE__);
 		$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+		$current_user = wp_get_current_user();
+		$user_login = $current_user->user_login;
+		// Menggunakan prepared statement untuk menghindari SQL injection
+		$stmt = $conn->prepare("SELECT * FROM wp_users WHERE user_login = ?");
+		$stmt->bind_param("s", $user_login);
+		$stmt->execute();
+		$result = $stmt->get_result();
+
+		if ($row = $result->fetch_assoc()) {
+		    // Tampilkan data pengguna, sesuai kolom yang terdapat di tabel wp_users
+		    echo "ID: " . htmlspecialchars($row['ID']) . "<br>";
+		    echo "Username: " . htmlspecialchars($row['user_login']) . "<br>";
+		    echo "Display Name: " . htmlspecialchars($row['display_name']) . "<br>";
+		    echo "Email: " . htmlspecialchars($row['user_email']) . "<br>";
+		    echo "Peran: " . htmlspecialchars($row['peran']) . "<br>";
+		} else {
+		    echo "Pengguna tidak ditemukan.";
+		}
 		// Cek koneksi
 		if ($conn->connect_error) {
 		    die("Koneksi gagal: " . $conn->connect_error);
@@ -37,6 +56,12 @@
 		        </li>
 		        <li class="nav-item">
 		          <a class="nav-link" href="#">Link</a>
+		        </li>
+				<li class="nav-item">
+		          <a class="nav-link" href="admin.php?page=utama&panggil=isikel.php">Isi Keluhan</a>
+		        </li>
+				<li class="nav-item">
+		          <a class="nav-link" href="admin.php?page=utama&panggil=isikel.php">Lihat</a>
 		        </li>  
 		        <li class="nav-item dropdown">
 		          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Master</a>
