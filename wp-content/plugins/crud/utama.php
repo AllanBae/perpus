@@ -13,56 +13,74 @@
 	function modulku() {
 		$jun = plugin_dir_url(__FILE__);
 		$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-		$current_user = wp_get_current_user();
-		$user_login = $current_user->user_login;
-		// Menggunakan prepared statement untuk menghindari SQL injection
-		$stmt = $conn->prepare("SELECT * FROM wp_users WHERE user_login = ?");
-		$stmt->bind_param("s", $user_login);
-		$stmt->execute();
-		$result = $stmt->get_result();
-
-		if ($row = $result->fetch_assoc()) {
-		    // Tampilkan data pengguna, sesuai kolom yang terdapat di tabel wp_users
-		    echo "ID: " . htmlspecialchars($row['ID']) . "<br>";
-		    echo "Username: " . htmlspecialchars($row['user_login']) . "<br>";
-		    echo "Display Name: " . htmlspecialchars($row['display_name']) . "<br>";
-		    echo "Email: " . htmlspecialchars($row['user_email']) . "<br>";
-		    echo "Peran: " . htmlspecialchars($row['peran']) . "<br>";
-		} else {
-		    echo "Pengguna tidak ditemukan.";
-		}
 		// Cek koneksi
 		if ($conn->connect_error) {
 		    die("Koneksi gagal: " . $conn->connect_error);
 		}
+		$current_user = wp_get_current_user();
+		$user_nama = $current_user->display_name;
+		$username = $current_user->user_login;
+		$peran = $current_user->peran; #mhs
+
+		$alamat ="";
+		if($peran=="mhs"):
+			$alamat = "https://mahasiswa.atmaluhur.ac.id/foto/2211500066.jpg";
+		else:
+			$alamat ="$jun/siti.jpg";
+		endif;
+		
+		// Query ke tabel wp_users manual
+		// 	$sql = "SELECT * FROM wp_users WHERE user_login = ?";
+		// 	$stmt = $conn->prepare($sql);
+		// 	$stmt->bind_param("s", $username);
+		// 	$stmt->execute();
+		// 	$result = $stmt->get_result();
+
+		// // Tampilkan hasil
+		// if ($result->num_rows > 0) {
+    	// $row = $result->fetch_assoc();
+    	// echo "<h3>Data Pengguna:</h3>";
+   		// echo "ID: " . $row['ID'] . "<br>";
+    	// echo "Username: " . $row['user_login'] . "<br>";
+    	// echo "Email: " . $row['user_email'] . "<br>";
+		// echo "Display Name: " . $row['display_name'] . "<br>";
+		// echo "Peran: " . $row['peran'] . "<br>";
+		// } else {
+		// echo "User tidak ditemukan di tabel wp_users.";
+		// }
+
+		// 	$stmt->close();
+		// 	$conn->close();
 		?>
+
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		  <div class="container-fluid">
-		    <a class="navbar-brand" href="#"><img width="25%" src="<?= $jun ?>/self-pic.jpg"></a>
+		    <a class="navbar-brand" href="#"><img width="20%" src="<?= $alamat ?>"></a>
 		    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
 		      <span class="navbar-toggler-icon"></span>
 		    </button>
 		    <div class="collapse navbar-collapse" id="collapsibleNavbar">
 		      <ul class="navbar-nav">
-		        <li class="nav-item">
+				<?php
+				if ($peran==="mhs"):
+				?>
+				<li class="nav-item">
+		          <a class="nav-link" href="admin.php?page=utama&panggil=isikel.php">Isi Keluhan</a>
+		        </li>  
+				<li class="nav-item">
+		          <a class="nav-link" href="admin.php?page=utama&panggil=lihtang.php">Lihat Tanggapan</a>
+		        </li>  
+				<?php else: ?>
+					<li class="nav-item">
 		          <a class="nav-link" href="admin.php?page=utama&panggil=alert.php">Alert</a>
 		        </li>
 		        <li class="nav-item">
 		          <a class="nav-link" href="admin.php?page=utama&panggil=modal.php">Modal</a>
 		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link" href="#">Link</a>
-		        </li>
-				<li class="nav-item">
-		          <a class="nav-link" href="admin.php?page=utama&panggil=isikel.php">Isi Keluhan</a>
-		        </li>
-				<li class="nav-item">
-		          <a class="nav-link" href="admin.php?page=utama&panggil=isikel.php">Lihat</a>
-		        </li>  
+		        
 		        <li class="nav-item dropdown">
 		          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Master</a>
 		          <ul class="dropdown-menu">
@@ -74,12 +92,13 @@
 		         <li class="nav-item dropdown">
 		          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Dropdown</a>
 		          <ul class="dropdown-menu">
-		            <li><a class="dropdown-item" href="#">Link</a></li>
+		            <li><a class="dropdown-item" href="#">Lin</a></li>
 		            <li><a class="dropdown-item" href="#">Another link</a></li>
 		            <li><a class="dropdown-item" href="#">A third link</a></li>
 		          </ul>
 		        </li>
-		      </ul>
+				<?php endif;?>
+		        </ul>
 		    </div>
 		  </div>
 		</nav>
@@ -89,7 +108,7 @@
 		  	if (isset($_GET["panggil"])):
 		  		include($_GET["panggil"]);
 		  	endif;
-		  	#$plugin_path = plugin_dir_path(__FILE__);
+		  	#$plugin_path = plugin_dir_path(_FILE_);
 				#echo $plugin_path;
 				
 		  ?>

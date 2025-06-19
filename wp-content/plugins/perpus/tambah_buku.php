@@ -34,9 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt->bind_param("sssssss", $id_buku, $judul, $pengarang, $tahun, $jumlah, $penerbit, $id_kategori);
 
     if ($stmt->execute()) {
-        echo "<script>window.location.href='admin.php?page=perpus_utama&panggil=tambah_buku.php';</script>";
+        echo "<script>window.location.href='admin.php?page=perpus_utama&panggil=buku.php';</script>"; // Perbaikan arah kembali ke buku.php
         exit;
-
     } else {
         echo "<div class='alert alert-danger'>Gagal menambahkan buku: " . htmlspecialchars($stmt->error) . "</div>";
     }
@@ -45,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <div class="container mt-4">
-    <h3 class="mb-4">Tambah Buku</h3>
+    <h3 class="mb-4 text-center">Tambah Buku</h3> <!-- Perbaikan text center -->
     <form method="post" class="border p-4 rounded bg-light">
         <div class="mb-3">
             <label>ID Buku:</label>
