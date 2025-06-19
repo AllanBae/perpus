@@ -47,7 +47,7 @@ $result = $conn->query($sql);
                     <td><?= htmlspecialchars($row['penerbit']) ?></td>
                     <td><?= htmlspecialchars($row['nm_kategori']) ?></td>
                     <td>
-                        <a href="admin.php?page=perpus_utama&panggil=tambah-buku.php&edit=<?= $row['id_buku'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="admin.php?page=perpus_utama&panggil=tambah_buku.php&edit=<?= $row['id_buku'] ?>" class="btn btn-warning btn-sm">Edit</a>
                         <a href="admin.php?page=perpus_utama&panggil=buku.php&hapus=<?= $row['id_buku'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus buku ini?')">Hapus</a>
                     </td>
                 </tr>
