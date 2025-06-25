@@ -47,7 +47,7 @@ function perpus_modulku() {
                         <a class="nav-link" href="admin.php?page=perpus_utama&panggil=buku.php">Entry Data Buku</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin.php?page=perpus_utama&panggil=pengunjung.php">Entry Data Anggota</a>
+                        <a class="nav-link" href="admin.php?page=perpus_utama&panggil=anggota.php">Entry Data Anggota</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Master</a>
