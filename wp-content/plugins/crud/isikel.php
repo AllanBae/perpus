@@ -1,34 +1,42 @@
 <?php
-// Proses insert data
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $kdbag = $_POST['kdbag'];
-    $nmbag = $_POST['nmbag'];
 
-    $query = "INSERT INTO tbl_bagian (kdbag, nmbag) VALUES ('$kdbag', '$nmbag')";
+// Default mode
+$MODE = 'tambah';
+
+// Proses insert/update data
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $tglKeluhan = date('Y-m-d H:i:s');
+    $idjenis = $_POST['idjenis'];
+    $isikeluhan = $_POST['isikeluhan'];
+    $nipnidnnim = $user_login;
+
+    $query = "INSERT INTO tbl_keluhan (tglkeluhan, isikeluhan, nipnidnnim, idjenis) VALUES ('$tglKeluhan', '$isikeluhan', '$nipnidnnim', '$idjenis')";
 
     if (mysqli_query($conn, $query)) {
         echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-            Data berhasil disimpan!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>';
-        echo '<meta http-equiv="refresh" content="1;url=admin.php?page=utama&panggil=bagian.php">';
+        Data berhasil disimpan!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>';
+        echo '<meta http-equiv="refresh" content="1;url=admin.php?page=utama&panggil=isikel.php">';
     } else {
         echo '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-            Gagal menyimpan data!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>';
-        echo '<meta http-equiv="refresh" content="1;url=admin.php?page=utama&panggil=bagian.php">';
+        Gagal menyimpan data! ' . mysqli_error($conn) . '
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>';
+        //echo error
+        echo '<meta http-equiv="refresh" content="1;url=admin.php?page=utama&panggil=isikel.php">';
     }
 }
 
-// Ambil data jenis untuk form dropdown
+// Ambil data dari database untuk ditampilkan di tabel
 $jenisList = mysqli_query($conn, "SELECT * FROM tbl_jenis");
+
 ?>
 
 <h2>Isi Keluhan</h2>
-<h5>
-    Silakan isi keluhan Bapak/Ibu/Sdr/ <b><?= $user_nama; ?></b> pada kolom isian yang telah disediakan.
-</h5> 
+<p>
+    silahkan Isi keluhan Bapak/Ibu/Sdr/ <b> <?= $user_nama; ?></b> pada kolom isian yang telah disediakan.
+</p>
 <form method="POST">
     <div class="mb-3 mt-3">
         <label for="idjenis" class="form-label">Jenis Keluhan</label>
@@ -37,16 +45,19 @@ $jenisList = mysqli_query($conn, "SELECT * FROM tbl_jenis");
             <select name="idjenis" id="idjenis" class="form-select" required>
                 <option value="">-- Pilih Jenis Keluhan --</option>
                 <?php while ($jenis = mysqli_fetch_assoc($jenisList)) : ?>
-                    <option value="<?= $jenis['idjenis'] ?>"><?= htmlspecialchars($jenis['nmjenis']) ?></option>
+                    <option value="<?= $jenis['idjenis'] ?>"
+                        <?= (isset($editData['idjenis']) && $editData['idjenis'] == $jenis['idjenis']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($jenis['nmjenis']) ?>
+                    </option>
                 <?php endwhile; ?>
             </select>
         </div>
     </div>
     <div class="mb-3">
-        <label for="nmbag" class="form-label">Isi Keluhan</label>
+        <label for="isikeluhan" class="form-label">Isi Keluhan</label>
         <div class="input-group">
             <span class="input-group-text"><i class="fas fa-comment-dots"></i></span>
-            <textarea class="form-control" id="nmbag" name="nmbag" rows="4"
+            <textarea class="form-control" id="isikeluhan" name="isikeluhan" rows="4"
                 placeholder="Masukkan isi keluhan minimal 20 karakter dan maksimal 500 karakter"
                 required></textarea>
         </div>
@@ -55,19 +66,20 @@ $jenisList = mysqli_query($conn, "SELECT * FROM tbl_jenis");
             <span id="charWarning" class="text-danger" style="display: none;">Isi keluhan harus 20–500 karakter.</span>
         </div>
     </div>
-    <input type="hidden" name="kdbag" value="<?= uniqid('BAG') ?>">
     <div class="text-center">
         <button type="submit" class="btn btn-primary">
-            <i class="fas fa-save"></i> Simpan
+            <i class="fas fa-save"></i>
+
+            Isi Keluhan
         </button>
-        <a href="admin.php?page=utama&panggil=isikel.php" class="btn btn-secondary">
+        <a href="admin.php?page=utama&panggil=bagian.php" class="btn btn-secondary">
             <i class="fas fa-undo"></i> Batal
         </a>
     </div>
 </form>
 
 <script>
-    const textarea = document.getElementById("nmbag");
+    const textarea = document.getElementById("isikeluhan");
     const charCount = document.getElementById("charCount");
     const charWarning = document.getElementById("charWarning");
     const form = document.querySelector("form");
@@ -76,6 +88,7 @@ $jenisList = mysqli_query($conn, "SELECT * FROM tbl_jenis");
         const length = textarea.value.length;
         charCount.textContent = ${length} / 500;
 
+        // Tampilkan warning jika tidak memenuhi syarat
         if (length < 20 || length > 500) {
             charWarning.style.display = "inline";
             textarea.classList.add("is-invalid");
@@ -88,7 +101,7 @@ $jenisList = mysqli_query($conn, "SELECT * FROM tbl_jenis");
     form.addEventListener("submit", function(e) {
         const length = textarea.value.length;
         if (length < 20 || length > 500) {
-            e.preventDefault();
+            e.preventDefault(); // Batalkan submit
             charWarning.style.display = "inline";
             textarea.classList.add("is-invalid");
             textarea.focus();
