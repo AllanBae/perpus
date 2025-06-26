@@ -1,28 +1,7 @@
 <?php
-// Handle hapus
-if (isset($_GET['hapus'])) {
-    $idHapus = $_GET['hapus'];
-    mysqli_query($conn, "DELETE FROM tbl_bagian WHERE kdbag = '$idHapus'");
-    echo '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-        Data berhasil dihapus!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>';
-    echo '<meta http-equiv="refresh" content="1;url=admin.php?page=utama&panggil=bagian.php">';
-}
 
 // Default mode
 $MODE = 'tambah';
-$editData = [];
-
-// Handle edit: ambil data jika ada parameter edit
-if (isset($_GET['edit'])) {
-    $idEdit = $_GET['edit'];
-    $resultEdit = mysqli_query($conn, "SELECT * FROM tbl_bagian WHERE kdbag = '$idEdit'");
-    if ($resultEdit && mysqli_num_rows($resultEdit) > 0) {
-        $editData = mysqli_fetch_assoc($resultEdit);
-        $MODE = 'edit';
-    }
-}
 
 // Proses insert/update data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -64,9 +43,9 @@ $jenisList = mysqli_query($conn, "SELECT * FROM tbl_jenis");
 ?>
 
 <h2>Isi Keluhan</h2>
-<p>
-    silahkan Isi keluhan Bapak/Ibu/Sdr/ <b> <?= $user_nama; ?></b> pada kolom isian yang telah disediakan.
-</p> 
+<h5>
+    silahkan Isi keluhan Bapak/Ibu/Sdr/ <b><?= $user_nama; ?></b> pada kolom isian yang telah disediakan.
+</h5> 
 <form method="POST">
     <div class="mb-3 mt-3">
         <label for="idjenis" class="form-label">Jenis Keluhan</label>
@@ -101,7 +80,7 @@ $jenisList = mysqli_query($conn, "SELECT * FROM tbl_jenis");
             <i class="fas <?= isset($editData['kdbag']) ? 'fa-edit' : 'fa-save' ?>"></i>
             <?= isset($editData['kdbag']) ? 'Ubah' : 'Simpan' ?>
         </button>
-        <a href="admin.php?page=utama&panggil=bagian.php" class="btn btn-secondary">
+        <a href="admin.php?page=utama&panggil=isikel.php" class="btn btn-secondary">
             <i class="fas fa-undo"></i> Batal
         </a>
     </div>
@@ -115,7 +94,7 @@ $jenisList = mysqli_query($conn, "SELECT * FROM tbl_jenis");
 
     textarea.addEventListener("input", () => {
         const length = textarea.value.length;
-        charCount.textContent = `${length} / 500`;
+        charCount.textContent = ${length} / 500;
 
         // Tampilkan warning jika tidak memenuhi syarat
         if (length < 20 || length > 500) {
