@@ -1,0 +1,65 @@
+<?php
+// Koneksi ke database
+$conn = new mysqli("localhost", "root", "", "db_ti6b_uas");
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
+}
+
+// Ambil user login dari WordPress
+$current_user = wp_get_current_user();
+$user_login = $current_user->user_login;
+
+// Query lihat keluhan dan tanggapan
+$sql = "SELECT 
+            k.IdKeluhan AS id_keluhan,
+            k.IsiKeluhan,
+            t.IsiTanggapan,
+            t.TglTanggapan,
+            k.TglKeluhan
+        FROM tbl_keluhan k
+        LEFT JOIN tanggapan t ON k.IdKeluhan = t.IdKeluhan
+        WHERE k.NIPNIDNNIM = ?
+        ORDER BY k.TglKeluhan DESC";
+
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Prepare gagal: " . $conn->error);
+}
+$stmt->bind_param("s", $user_login);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
+<div class="container mt-4">
+    <h3 class="mb-4">Lihat Tanggapan Keluhan</h3>
+
+    <?php while ($row = $result->fetch_assoc()) : ?>
+        <div class="card border-primary mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <strong>ID Keluhan:</strong> <?= htmlspecialchars($row['id_keluhan']) ?>
+            </div>
+            <div class="card-body">
+                <small class="text-muted d-block mb-2">
+                    📅 Tanggal Keluhan: <?= date('d-m-Y H:i', strtotime($row['TglKeluhan'])) ?>
+                </small>
+                
+                <h5 class="card-title text-primary">Keluhan</h5>
+                <p class="card-text"><?= nl2br(htmlspecialchars($row['IsiKeluhan'])) ?></p>
+
+                <hr>
+                <h6 class="text-secondary">Tanggapan</h6>
+                <p>
+                    <?= $row['IsiTanggapan'] ? nl2br(htmlspecialchars($row['IsiTanggapan'])) : '<em>Belum ada tanggapan.</em>' ?>
+                </p>
+                <?php if ($row['TglTanggapan']) : ?>
+                    <small class="text-muted">🕒 Ditanggapi pada: <?= date('d-m-Y H:i', strtotime($row['TglTanggapan'])) ?></small>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endwhile; ?>
+</div>
+
+<?php
+$stmt->close();
+$conn->close();
+?>
