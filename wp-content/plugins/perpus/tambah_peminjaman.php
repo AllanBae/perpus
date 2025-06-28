@@ -199,7 +199,7 @@ tableBody.addEventListener("change", (e) => {
         jumlahInput.max = stok;
         jumlahInput.value = jumlahInput.value > stok ? stok : jumlahInput.value;
         jumlahInput.placeholder = stok > 0 ? "max: " + stok : "stok habis";
-
+        jumlahInput.disabled = stok == 0;
         updateDropdownOptions();
     }
 });
