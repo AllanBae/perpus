@@ -111,7 +111,7 @@ while ($b = $buku_result->fetch_assoc()) {
                 <tr class="table-secondary text-center">
                     <th style="width:40px;">No</th>
                     <th style="width:80px;">ID Buku</th>
-                    <th>Judul Buku</th>
+                    <th style ="width:80px;">Judul Buku</th>
                     <th style="width:80px;">Jumlah</th>
                     <th style="width:60px;">Aksi</th>
                 </tr>
