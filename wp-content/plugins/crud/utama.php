@@ -87,6 +87,8 @@
 		            <li><a class="dropdown-item" href="admin.php?page=utama&panggil=jenis.php">Jenis Keluhan</a></li>
 		            <li><a class="dropdown-item" href="admin.php?page=utama&panggil=bagian.php">Bagian</a></li>
 		            <li><a class="dropdown-item" href="admin.php?page=utama&panggil=mahasiswa.php">Mahasiswa</a></li>
+					<li><a class="dropdown-item" href="admin.php?page=utama&panggil=tanggapan.php">Tanggapan</a></li>
+					<li><a class="dropdown-item" href="admin.php?page=utama&panggil=keluhan_admin.php">Daftar Keluhan</a></li>
 		          </ul>
 		        </li>
 		         <li class="nav-item dropdown">
