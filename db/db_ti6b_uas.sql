@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 02 Jul 2025 pada 16.53
+-- Waktu pembuatan: 02 Jul 2025 pada 16.58
 -- Versi server: 8.0.30
 -- Versi PHP: 8.1.10
 
@@ -59,9 +59,6 @@ CREATE TABLE `bisa` (
 --
 
 INSERT INTO `bisa` (`no_pengembalian`, `no_copy_buku`, `jml_kembali`) VALUES
-('PG0001', 'B1-CB1', 1),
-('PG0001', 'B1-CB2', 1),
-('PG0001', 'B2-CB3', 1),
 ('PG0002', 'B2-CB5', 1),
 ('PG0002', 'B2-CB6', 1),
 ('PG0002', 'B2-CB7', 1),
@@ -177,8 +174,8 @@ CREATE TABLE `denda` (
 --
 
 INSERT INTO `denda` (`no_denda`, `tgl_denda`, `tarif_denda`, `alasan_denda`, `no_pengembalian`) VALUES
-('DN01', '2025-07-02', '10000', 'Buku Kena kotoran Cokelat Mutiara', 'PG0004'),
-('DN02', '2025-07-02', '5000', 'Buku Robek(pada hal 69)', 'PG0003');
+('DN02', '2025-07-02', '5000', 'Buku Robek(pada hal 69)', 'PG0003'),
+('DN03', '2025-07-02', '10000', 'Buku Kotor terkena noda makanan', 'PG0004');
 
 -- --------------------------------------------------------
 
@@ -254,7 +251,6 @@ CREATE TABLE `pengembalian` (
 --
 
 INSERT INTO `pengembalian` (`no_pengembalian`, `tgl_pengembalian`, `no_peminjaman`, `status_pengembalian`, `status_denda`) VALUES
-('PG0001', '2025-07-18', 'PJ1', 'selesai', 'aman'),
 ('PG0002', '2025-08-02', 'PJ2', 'selesai', 'aman'),
 ('PG0003', '2025-08-19', 'PJ0003', 'selesai', 'terdenda'),
 ('PG0004', '2025-08-22', 'PJ0004', 'selesai', 'terdenda');
