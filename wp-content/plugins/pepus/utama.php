@@ -46,7 +46,6 @@ function perpus_modulku() {
                             <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=kategori.php">Entry Data Kategori</a></li>
                             <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=buku.php">Entry Data Buku</a></li>
                             <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=anggota.php">Entry Data Anggota</a></li>
-                            <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=denda.php">Entry Denda</a></li>
                         </ul>
                     </li>
 
@@ -56,7 +55,7 @@ function perpus_modulku() {
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=peminjaman.php">Entry Peminjaman</a></li>
                             <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=pengembalian.php">Entry Pengembalian</a></li>
-                            <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=kunjungan.php">Kunjungan</a></li>
+                            <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=denda.php">Entry Denda</a></li>
                         </ul>
                     </li>
 
@@ -64,8 +63,8 @@ function perpus_modulku() {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Cetak</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=laporan_peminjaman.php">Cetak Laporan Peminjaman</a></li>
-                            <li><a class="dropdown-item" href="admin.php?page=perpus_utama&panggil=laporan_pengembalian.php">Cetak Laporan Pengembalian</a></li>
+                            <li><a class="dropdown-item" href="#">Cetak Laporan Peminja</a></li>
+                            <li><a class="dropdown-item" href="#">Cetak Laporan Pengembalian</a></li>
                         </ul>
                     </li>
 
@@ -156,8 +155,6 @@ function perpus_tambah_menu() {
         'perpus_utama&panggil=denda.php',
         'perpus_modulku'
     );
-
-    
 }
 add_action('admin_menu', 'perpus_tambah_menu');
 ?>
